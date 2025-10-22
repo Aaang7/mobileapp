@@ -9,11 +9,11 @@
 (function ($) {
   "use strict";
 
-  function isInEffect (effect) {
+  function isInEffect(effect) {
     return /In/.test(effect) || $.inArray(effect, $.fn.textillate.defaults.inEffects) >= 0;
   };
 
-  function isOutEffect (effect) {
+  function isOutEffect(effect) {
     return /Out/.test(effect) || $.inArray(effect, $.fn.textillate.defaults.outEffects) >= 0;
   };
 
@@ -24,7 +24,7 @@
   };
 
   // custom get data api method
-  function getData (node) {
+  function getData(node) {
     var attrs = node.attributes || []
       , data = {};
 
@@ -37,7 +37,7 @@
         data.in[nodeName.replace(/data-in-/, '')] = stringToBoolean(attr.nodeValue);
       } else if (/^data-out-*/.test(nodeName)) {
         data.out = data.out || {};
-        data.out[nodeName.replace(/data-out-/, '')] =stringToBoolean(attr.nodeValue);
+        data.out[nodeName.replace(/data-out-/, '')] = stringToBoolean(attr.nodeValue);
       } else if (/^data-*/.test(nodeName)) {
         data[nodeName.replace(/data-/, '')] = stringToBoolean(attr.nodeValue);
       }
@@ -46,23 +46,23 @@
     return data;
   }
 
-  function shuffle (o) {
-      for (var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-      return o;
+  function shuffle(o) {
+    for (var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+    return o;
   }
 
-  function animate ($t, effect, cb) {
+  function animate($t, effect, cb) {
     $t.addClass('animated ' + effect)
       .css('visibility', 'visible')
       .show();
 
     $t.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-        $t.removeClass('animated ' + effect);
-        cb && cb();
+      $t.removeClass('animated ' + effect);
+      cb && cb();
     });
   }
 
-  function animateTokens ($tokens, options, cb) {
+  function animateTokens($tokens, options, cb) {
     var that = this
       , count = $tokens.length;
 
@@ -77,7 +77,7 @@
     $.each($tokens, function (i, t) {
       var $token = $(t);
 
-      function complete () {
+      function complete() {
         if (isInEffect(options.effect)) {
           $token.css('visibility', 'visible');
         } else if (isOutEffect(options.effect)) {
@@ -141,7 +141,7 @@
     base.in = function (index, cb) {
       index = index || 0;
 
-      var $elem = base.$texts.find(':nth-child(' + ((index||0) + 1) + ')')
+      var $elem = base.$texts.find(':nth-child(' + ((index || 0) + 1) + ')')
         , options = $.extend(true, {}, base.options, $elem.length ? getData($elem[0]) : {})
         , $tokens;
 
@@ -157,15 +157,15 @@
       // split words to individual characters if token type is set to 'char'
       if (base.options.type == "char") {
         base.$current.find('[class^="word"]')
-            .css({
-              'display': 'inline-block',
-              // fix for poor ios performance
-              '-webkit-transform': 'translate3d(0,0,0)',
-              '-moz-transform': 'translate3d(0,0,0)',
-              '-o-transform': 'translate3d(0,0,0)',
-              'transform': 'translate3d(0,0,0)'
-            })
-            .each(function () { $(this).lettering() });
+          .css({
+            'display': 'inline-block',
+            // fix for poor ios performance
+            '-webkit-transform': 'translate3d(0,0,0)',
+            '-moz-transform': 'translate3d(0,0,0)',
+            '-o-transform': 'translate3d(0,0,0)',
+            'transform': 'translate3d(0,0,0)'
+          })
+          .each(function () { $(this).lettering() });
       }
 
       $tokens = base.$current
@@ -188,7 +188,7 @@
     };
 
     base.out = function (cb) {
-      var $elem = base.$texts.find(':nth-child(' + ((base.currentIndex||0) + 1) + ')')
+      var $elem = base.$texts.find(':nth-child(' + ((base.currentIndex || 0) + 1) + ')')
         , $tokens = base.$current.find('[class^="' + base.options.type + '"]')
         , options = $.extend(true, {}, base.options, $elem.length ? getData($elem[0]) : {})
 
@@ -207,7 +207,7 @@
       setTimeout(function () {
         base.triggerEvent('start');
 
-        (function run (index) {
+        (function run(index) {
           base.in(index, function () {
             var length = base.$texts.children().length;
 
@@ -268,7 +268,7 @@
       sync: false,
       reverse: false,
       shuffle: false,
-      callback: function () {}
+      callback: function () { }
     },
     out: {
       effect: 'hinge',
@@ -277,12 +277,12 @@
       sync: false,
       reverse: false,
       shuffle: false,
-      callback: function () {}
+      callback: function () { }
     },
     autoStart: true,
     inEffects: [],
-    outEffects: [ 'hinge' ],
-    callback: function () {},
+    outEffects: ['hinge'],
+    callback: function () { },
     type: 'char'
   };
 
